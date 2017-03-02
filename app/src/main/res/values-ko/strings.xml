@@ -2,4 +2,7 @@
 <resources>
     <string name="app_name">Remember Photo</string>
     <string name="story_list_search_edit">검색어를 입력해 주세요</string>
+    <plurals name="story_detail_title_text">
+        <item quantity="other">%1$d장의 사진</item>
+    </plurals>
 </resources>
