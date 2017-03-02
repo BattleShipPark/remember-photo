@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Remember Photo</string>
+    <string name="story_list_search_edit">검색어를 입력해 주세요</string>
+</resources>

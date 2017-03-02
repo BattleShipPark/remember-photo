@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Remember Photo</string>
+    <string name="story_list_search_edit">Input Search Text</string>
 </resources>
