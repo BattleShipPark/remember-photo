@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">Remember Photo</string>
     <string name="story_list_search_edit">검색어를 입력해 주세요</string>
+    <string name="story_list_error_page_text">로딩 중에 에러가 발생했습니다</string>
+    <string name="story_list_error_page_btn">재시도</string>
     <plurals name="story_detail_title_text">
         <item quantity="other">%1$d장의 사진</item>
     </plurals>

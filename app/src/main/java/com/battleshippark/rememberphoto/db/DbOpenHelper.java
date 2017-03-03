@@ -24,6 +24,7 @@ public class DbOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private DbOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        getReadableDatabase();
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  */
 
-class Mapper {
+public class DomainMapper {
     StoryList transformList(List<StoryDto> storyDtoList) {
         StoryList storyList = new StoryList();
         Stream.of(storyDtoList).map(this::transformItem).forEach(storyList::add);
