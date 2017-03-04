@@ -8,6 +8,6 @@ import com.battleshippark.rememberphoto.domain.DomainStoryList;
 
 class PresentationMapper {
     StoryList transform(DomainStoryList domainStoryList) {
-        return null;
+        return new StoryList(domainStoryList);
     }
 }

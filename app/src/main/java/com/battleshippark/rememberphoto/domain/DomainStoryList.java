@@ -1,5 +1,7 @@
 package com.battleshippark.rememberphoto.domain;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
@@ -13,15 +15,14 @@ import java.util.Map;
  */
 
 public class DomainStoryList {
-    private final List<Group> groupList;
+    private final List<Group> groupList = new ArrayList<>();
 
-    DomainStoryList(List<Story> list) {
-        groupList = new ArrayList<>();
-
+    @VisibleForTesting
+    public DomainStoryList(List<Story> list) {
         group(list);
     }
 
-    List<Group> getGroupList() {
+    public List<Group> getGroupList() {
         return groupList;
     }
 
