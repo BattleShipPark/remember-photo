@@ -10,7 +10,7 @@ import rx.Observable;
 /**
  */
 
-public interface StoryRepos {
+public interface StoryInteractor {
     Observable<List<StoryDto>> queryList() throws SQLException;
 
     Observable<StoryDto> query(long id) throws SQLException;

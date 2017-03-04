@@ -1,6 +1,6 @@
 package com.battleshippark.rememberphoto.domain;
 
-import com.battleshippark.rememberphoto.data.StoryRepos;
+import com.battleshippark.rememberphoto.data.StoryInteractor;
 import com.battleshippark.rememberphoto.db.dto.StoryDto;
 
 import java.sql.SQLException;
@@ -13,12 +13,12 @@ import rx.Subscriber;
  */
 
 public class GetStoryList implements UseCase<Void, StoryList> {
-    private final StoryRepos storyRepos;
+    private final StoryInteractor storyRepos;
     private final DomainMapper domainMapper;
     private final Scheduler scheduler;
     private final Scheduler postScheduler;
 
-    public GetStoryList(StoryRepos storyRepos, DomainMapper domainMapper, Scheduler scheduler, Scheduler postScheduler) {
+    public GetStoryList(StoryInteractor storyRepos, DomainMapper domainMapper, Scheduler scheduler, Scheduler postScheduler) {
         this.storyRepos = storyRepos;
         this.domainMapper = domainMapper;
         this.scheduler = scheduler;

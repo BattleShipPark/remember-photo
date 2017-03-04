@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.battleshippark.rememberphoto.R;
-import com.battleshippark.rememberphoto.data.StoryReposImpl;
+import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.GetStoryList;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.StoryList;
@@ -48,7 +48,7 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     private void initData(Bundle savedInstanceState) {
         adapter = new StoryListAdapter();
         presenter = new StoryListPresenter(this,
-                new GetStoryList(new StoryReposImpl(), new DomainMapper(),
+                new GetStoryList(new StoryRepository(), new DomainMapper(),
                         Schedulers.io(), AndroidSchedulers.mainThread()));
     }
 

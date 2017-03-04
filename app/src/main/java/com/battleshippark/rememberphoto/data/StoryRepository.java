@@ -11,7 +11,7 @@ import rx.Observable;
 /**
  */
 
-public class StoryReposImpl implements StoryRepos {
+public class StoryRepository implements StoryInteractor {
     @Override
     public Observable<List<StoryDto>> queryList() throws SQLException {
         return Observable.just(DbOpenHelper.getInstance().getStoryDao().queryForAll());
