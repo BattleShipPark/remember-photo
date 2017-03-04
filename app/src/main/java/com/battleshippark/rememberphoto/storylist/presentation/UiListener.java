@@ -1,7 +1,5 @@
 package com.battleshippark.rememberphoto.storylist.presentation;
 
-import com.battleshippark.rememberphoto.domain.StoryList;
-
 /**
  */
 

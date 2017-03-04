@@ -10,9 +10,8 @@ import android.widget.ProgressBar;
 
 import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.data.StoryRepository;
-import com.battleshippark.rememberphoto.domain.GetStoryList;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
-import com.battleshippark.rememberphoto.domain.StoryList;
+import com.battleshippark.rememberphoto.domain.GetStoryList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +48,7 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
         adapter = new StoryListAdapter();
         presenter = new StoryListPresenter(this,
                 new GetStoryList(new StoryRepository(), new DomainMapper(),
-                        Schedulers.io(), AndroidSchedulers.mainThread()));
+                        Schedulers.io(), AndroidSchedulers.mainThread()), new PresentationMapper());
     }
 
     private void initUI() {

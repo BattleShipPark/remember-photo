@@ -9,9 +9,9 @@ import java.util.List;
  */
 
 public class DomainMapper {
-    StoryList transformList(List<StoryDto> storyDtoList) {
+    DomainStoryList transformList(List<StoryDto> storyDtoList) {
         List<Story> list = Stream.of(storyDtoList).map(this::transformItem).toList();
-        return new StoryList(list);
+        return new DomainStoryList(list);
     }
 
     Story transformItem(StoryDto storyDto) {

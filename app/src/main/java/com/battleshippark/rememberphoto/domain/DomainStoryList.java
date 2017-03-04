@@ -12,16 +12,16 @@ import java.util.Map;
 /**
  */
 
-public class StoryList {
+public class DomainStoryList {
     private final List<Group> groupList;
 
-    public StoryList(List<Story> list) {
+    DomainStoryList(List<Story> list) {
         groupList = new ArrayList<>();
 
         group(list);
     }
 
-    public List<Group> getGroupList() {
+    List<Group> getGroupList() {
         return groupList;
     }
 
@@ -43,7 +43,7 @@ public class StoryList {
 
     @Override
     public String toString() {
-        return "StoryList{" +
+        return "DomainStoryList{" +
                 "groupList=" + groupList +
                 '}';
     }

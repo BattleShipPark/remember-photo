@@ -12,7 +12,7 @@ import rx.Subscriber;
 /**
  */
 
-public class GetStoryList implements UseCase<Void, StoryList> {
+public class GetStoryList implements UseCase<Void, DomainStoryList> {
     private final StoryInteractor storyRepos;
     private final DomainMapper domainMapper;
     private final Scheduler scheduler;
@@ -26,7 +26,7 @@ public class GetStoryList implements UseCase<Void, StoryList> {
     }
 
     @Override
-    public void execute(Void param, final Subscriber<StoryList> subscriber) {
+    public void execute(Void param, final Subscriber<DomainStoryList> subscriber) {
         Subscriber<List<StoryDto>> innerSubscriber = new Subscriber<List<StoryDto>>() {
             @Override
             public void onCompleted() {

@@ -21,10 +21,10 @@ public class DomainMapperTest {
     @Test
     public void transformList_empty() throws Exception {
         List<StoryDto> storyDtoList = Collections.emptyList();
-        StoryList expectedStoryList = new StoryList(Collections.EMPTY_LIST);
+        DomainStoryList expectedStoryList = new DomainStoryList(Collections.EMPTY_LIST);
         DomainMapper mapper = new DomainMapper();
 
-        StoryList storyList = mapper.transformList(storyDtoList);
+        DomainStoryList storyList = mapper.transformList(storyDtoList);
 
         assertThat(storyList).isEqualTo(expectedStoryList);
     }
@@ -42,12 +42,12 @@ public class DomainMapperTest {
         );
         DomainMapper mapper = new DomainMapper();
 
-        StoryList storyList = mapper.transformList(storyDtoList);
+        DomainStoryList storyList = mapper.transformList(storyDtoList);
 
 
         assertThat(storyList.getGroupList()).hasSize(2);
 
-        StoryList.Group group = storyList.getGroupList().get(0);
+        DomainStoryList.Group group = storyList.getGroupList().get(0);
         assertThat(group.getYear()).isEqualTo(2017);
         assertThat(group.getMonth()).isEqualTo(3);
         assertThat(group.getStoryList()).hasSize(2);
