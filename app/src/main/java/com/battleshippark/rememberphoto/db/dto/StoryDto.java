@@ -1,5 +1,7 @@
 package com.battleshippark.rememberphoto.db.dto;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -23,6 +25,14 @@ public class StoryDto {
     private String[] photoPathList;
 
     public StoryDto() {
+    }
+
+    @VisibleForTesting
+    public StoryDto(String title, String content, Date date, String[] photoPathList) {
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        this.photoPathList = photoPathList;
     }
 
     public long getId() {
