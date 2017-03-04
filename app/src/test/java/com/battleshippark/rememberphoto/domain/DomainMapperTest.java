@@ -21,7 +21,7 @@ public class DomainMapperTest {
     @Test
     public void transformList_empty() throws Exception {
         List<StoryDto> storyDtoList = Collections.emptyList();
-        DomainStoryList expectedStoryList = new DomainStoryList(Collections.EMPTY_LIST);
+        DomainStoryList expectedStoryList = new DomainStoryList();
         DomainMapper mapper = new DomainMapper();
 
         DomainStoryList storyList = mapper.transformList(storyDtoList);

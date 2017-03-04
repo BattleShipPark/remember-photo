@@ -8,18 +8,30 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
  */
 
 public class DomainStoryList {
-    private final List<Group> groupList = new ArrayList<>();
+    private final List<Group> groupList;
+
+    public DomainStoryList() {
+        this.groupList = new ArrayList<>();
+    }
 
     @VisibleForTesting
-    public DomainStoryList(List<Story> list) {
-        group(list);
+    public static DomainStoryList of(List<DomainStory> list) {
+        DomainStoryList domainStoryList = new DomainStoryList();
+        domainStoryList.group(list);
+        return domainStoryList;
+    }
+
+    @VisibleForTesting
+    public static DomainStoryList ofGroup(List<Group> list) {
+        DomainStoryList domainStoryList = new DomainStoryList();
+        domainStoryList.groupList.addAll(list);
+        return domainStoryList;
     }
 
     public List<Group> getGroupList() {
@@ -27,16 +39,16 @@ public class DomainStoryList {
     }
 
 
-    private void group(List<Story> list) {
+    private void group(List<DomainStory> list) {
         List<YearMonth> groupNames = Stream.of(list).map(this::getYearMonth).distinct().toList();
-        Map<YearMonth, List<Story>> groups = Stream.of(list).collect(Collectors.groupingBy(this::getYearMonth));
+        Map<YearMonth, List<DomainStory>> groups = Stream.of(list).collect(Collectors.groupingBy(this::getYearMonth));
         groupList.addAll(
                 Stream.of(groupNames).map(name -> new Group(name.year, name.month, groups.get(name)))
                         .toList()
         );
     }
 
-    private YearMonth getYearMonth(Story story) {
+    private YearMonth getYearMonth(DomainStory story) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(story.getDate());
         return new YearMonth(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1);
@@ -86,9 +98,9 @@ public class DomainStoryList {
 
     public static class Group {
         private final int year, month;
-        private final List<Story> storyList;
+        private final List<DomainStory> storyList;
 
-        public Group(int year, int month, List<Story> storyList) {
+        public Group(int year, int month, List<DomainStory> storyList) {
             this.year = year;
             this.month = month;
             this.storyList = storyList;
@@ -102,7 +114,7 @@ public class DomainStoryList {
             return month;
         }
 
-        public List<Story> getStoryList() {
+        public List<DomainStory> getStoryList() {
             return storyList;
         }
 
