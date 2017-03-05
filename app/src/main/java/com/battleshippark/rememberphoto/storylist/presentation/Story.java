@@ -5,55 +5,58 @@ import android.support.annotation.VisibleForTesting;
 import com.battleshippark.rememberphoto.db.dto.StoryDto;
 import com.battleshippark.rememberphoto.domain.DomainStory;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  */
 
-public class Story {
+class Story {
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
     private final long id;
     private final String title;
     private final String content;
-    private final Date date;
-    private final List<String> photoPathList;
+    private final String date;
+    private final String photoPath;
 
-    public Story(DomainStory domainStory) {
+    Story(DomainStory domainStory) {
         id = domainStory.getId();
         title = domainStory.getTitle();
         content = domainStory.getContent();
-        date = domainStory.getDate();
-        photoPathList = domainStory.getPhotoPathList();
+        date = dateFormat.format(domainStory.getDate());
+        photoPath = domainStory.getPhotoPathList().get(0);
     }
 
     @VisibleForTesting
-    public Story(long id, String title, String content, Date date, List<String> photoPathList) {
+    Story(long id, String title, String content, String date, String photoPath) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
-        this.photoPathList = photoPathList;
+        this.photoPath = photoPath;
     }
 
-    public long getId() {
+    long getId() {
         return id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public String getContent() {
+    String getContent() {
         return content;
     }
 
-    public Date getDate() {
+    String getDate() {
         return date;
     }
 
-    public List<String> getPhotoPathList() {
-        return photoPathList;
+    String getPhotoPath() {
+        return photoPath;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class Story {
         if (title != null ? !title.equals(story.title) : story.title != null) return false;
         if (content != null ? !content.equals(story.content) : story.content != null) return false;
         if (date != null ? !date.equals(story.date) : story.date != null) return false;
-        return photoPathList != null ? photoPathList.equals(story.photoPathList) : story.photoPathList == null;
+        return photoPath != null ? photoPath.equals(story.photoPath) : story.photoPath == null;
     }
 
     @Override
@@ -82,7 +85,7 @@ public class Story {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", date=" + date +
-                ", photoPathList=" + photoPathList +
+                ", photoPath=" + photoPath +
                 '}';
     }
 }

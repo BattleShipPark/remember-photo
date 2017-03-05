@@ -55,6 +55,17 @@ public class DomainStoryList {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DomainStoryList that = (DomainStoryList) o;
+
+        return groupList != null ? groupList.equals(that.groupList) : that.groupList == null;
+
+    }
+
+    @Override
     public String toString() {
         return "DomainStoryList{" +
                 "groupList=" + groupList +

@@ -15,8 +15,8 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 /**
  */
 public class PresentationMapperTest {
-    final PresentationMapper mapper = new PresentationMapper();
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+    private final PresentationMapper mapper = new PresentationMapper();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     @Test
     public void transform_empty() throws Exception {
@@ -51,16 +51,14 @@ public class PresentationMapperTest {
                 Arrays.asList(
                         new StoryItemList.Item(2017, 3, 2),
                         new StoryItemList.Item(
-                                new Story(1, "title1", "content1", dateFormat.parse("2017-03-01 09:00:00"),
-                                        Arrays.asList("image1", "image2"))),
+                                new Story(1, "title1", "content1", "2017-03-01 09:00:00", "image1")
+                        ),
                         new StoryItemList.Item(
-                                new Story(2, "title2", "content2", dateFormat.parse("2017-03-01 08:50:10"),
-                                        Arrays.asList("image3", "image4"))
+                                new Story(2, "title2", "content2", "2017-03-01 08:50:10", "image3")
                         ),
                         new StoryItemList.Item(2017, 2, 1),
                         new StoryItemList.Item(
-                                new Story(3, "title3", "content3", dateFormat.parse("2017-02-28 01:40:30"),
-                                        Arrays.asList("image5"))
+                                new Story(3, "title3", "content3", "2017-02-28 01:40:30", "image5")
                         )
                 )
         );
