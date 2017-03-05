@@ -7,6 +7,7 @@ import com.battleshippark.rememberphoto.domain.DomainStoryList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  */
@@ -58,23 +59,20 @@ class StoryItemList {
 
     static class Item {
         final Type type;
-        final int year;
-        final int month;
+        final String date;
         final int count;
         final Story story;
 
         Item(int year, int month, int count) {
             this.type = Type.HEADER;
-            this.year = year;
-            this.month = month;
+            this.date = String.format(Locale.US, "%d / %02d", year, month);
             this.count = count;
             this.story = null;
         }
 
         Item(Story story) {
             this.type = Type.STORY;
-            this.year = -1;
-            this.month = -1;
+            this.date = null;
             this.count = -1;
             this.story = story;
         }
@@ -86,24 +84,27 @@ class StoryItemList {
 
             Item item = (Item) o;
 
-            if (year != item.year) return false;
-            if (month != item.month) return false;
             if (count != item.count) return false;
             if (type != item.type) return false;
+            if (date != null ? !date.equals(item.date) : item.date != null) return false;
             return story != null ? story.equals(item.story) : item.story == null;
+
         }
 
         @Override
         public int hashCode() {
-            return 0;
+            int result = type != null ? type.hashCode() : 0;
+            result = 31 * result + (date != null ? date.hashCode() : 0);
+            result = 31 * result + count;
+            result = 31 * result + (story != null ? story.hashCode() : 0);
+            return result;
         }
 
         @Override
         public String toString() {
             return "Item{" +
                     "type=" + type +
-                    ", year=" + year +
-                    ", month=" + month +
+                    ", date='" + date + '\'' +
                     ", count=" + count +
                     ", story=" + story +
                     '}';
