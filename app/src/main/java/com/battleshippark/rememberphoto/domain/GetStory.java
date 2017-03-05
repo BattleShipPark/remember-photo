@@ -1,0 +1,53 @@
+package com.battleshippark.rememberphoto.domain;
+
+import com.battleshippark.rememberphoto.data.StoryInteractor;
+import com.battleshippark.rememberphoto.db.dto.StoryDto;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import rx.Scheduler;
+import rx.Subscriber;
+
+/**
+ */
+
+public class GetStory implements UseCase<Long, DomainStory> {
+    private final StoryInteractor storyRepos;
+    private final DomainMapper domainMapper;
+    private final Scheduler scheduler;
+    private final Scheduler postScheduler;
+
+    public GetStory(StoryInteractor storyRepos, DomainMapper domainMapper, Scheduler scheduler, Scheduler postScheduler) {
+        this.storyRepos = storyRepos;
+        this.domainMapper = domainMapper;
+        this.scheduler = scheduler;
+        this.postScheduler = postScheduler;
+    }
+
+    @Override
+    public void execute(Long storyId, final Subscriber<DomainStory> subscriber) {
+        Subscriber<StoryDto> innerSubscriber = new Subscriber<StoryDto>() {
+            @Override
+            public void onCompleted() {
+                subscriber.onCompleted();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                subscriber.onError(e);
+            }
+
+            @Override
+            public void onNext(StoryDto storyDto) {
+                subscriber.onNext(domainMapper.transformItem(storyDto));
+            }
+        };
+
+        try {
+            storyRepos.query(storyId).subscribeOn(scheduler).observeOn(postScheduler).subscribe(innerSubscriber);
+        } catch (SQLException e) {
+            subscriber.onError(e);
+        }
+    }
+}

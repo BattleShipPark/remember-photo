@@ -6,11 +6,13 @@ import android.view.ViewGroup;
 
 import com.battleshippark.rememberphoto.R;
 
+import java.util.List;
+
 /**
  */
 
-class StoryDetailAdapter extends RecyclerView.Adapter<StoryDetailPhotoVH> {
-    private Story item;
+class StoryDetailPhotoAdapter extends RecyclerView.Adapter<StoryDetailPhotoVH> {
+    private List<String> photoPathList;
 
     @Override
     public StoryDetailPhotoVH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -20,15 +22,16 @@ class StoryDetailAdapter extends RecyclerView.Adapter<StoryDetailPhotoVH> {
 
     @Override
     public void onBindViewHolder(StoryDetailPhotoVH holder, int position) {
-        holder.bind();
+        holder.bind(photoPathList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return photoPathList == null ? 0 : photoPathList.size();
     }
 
-    public void setItem(Story item) {
-        this.item = item;
+    void setItems(List<String> photoPathList) {
+        this.photoPathList = photoPathList;
+        notifyDataSetChanged();
     }
 }

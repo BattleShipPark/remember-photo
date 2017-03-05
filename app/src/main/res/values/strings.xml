@@ -3,6 +3,7 @@
     <string name="story_list_search_edit">Input Search Text</string>
     <string name="story_list_error_page_text">Error occurred while loading</string>
     <string name="story_list_error_page_btn">Retry</string>
+    <string name="story_detail_date_text">Modified in %1$s</string>
     <plurals name="story_detail_title_text">
         <item quantity="one">1 photo</item>
         <item quantity="other">%1$d photos</item>
