@@ -75,8 +75,8 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     }
 
     @Override
-    public void update(StoryList storyList) {
-
+    public void update(StoryItemList storyItemList) {
+        adapter.setItems(storyItemList);
     }
 
     @OnClick(R.id.error_retry_btn)

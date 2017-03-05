@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Locale;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -23,9 +22,9 @@ public class PresentationMapperTest {
     public void transform_empty() throws Exception {
         DomainStoryList domainStoryList = new DomainStoryList();
 
-        StoryList storyList = mapper.transform(domainStoryList);
+        StoryItemList storyItemList = mapper.transform(domainStoryList);
 
-        assertThat(storyList.getItemList()).isEmpty();
+        assertThat(storyItemList.getItemList()).isEmpty();
     }
 
     @Test
@@ -48,26 +47,26 @@ public class PresentationMapperTest {
                         )
                 )
         );
-        StoryList expectedStoryList = new StoryList(
+        StoryItemList expectedStoryItemList = new StoryItemList(
                 Arrays.asList(
-                        new StoryList.Item(2017, 3, 2),
-                        new StoryList.Item(
+                        new StoryItemList.Item(2017, 3, 2),
+                        new StoryItemList.Item(
                                 new Story(1, "title1", "content1", dateFormat.parse("2017-03-01 09:00:00"),
                                         Arrays.asList("image1", "image2"))),
-                        new StoryList.Item(
+                        new StoryItemList.Item(
                                 new Story(2, "title2", "content2", dateFormat.parse("2017-03-01 08:50:10"),
                                         Arrays.asList("image3", "image4"))
                         ),
-                        new StoryList.Item(2017, 2, 1),
-                        new StoryList.Item(
+                        new StoryItemList.Item(2017, 2, 1),
+                        new StoryItemList.Item(
                                 new Story(3, "title3", "content3", dateFormat.parse("2017-02-28 01:40:30"),
                                         Arrays.asList("image5"))
                         )
                 )
         );
 
-        StoryList storyList = mapper.transform(domainStoryList);
+        StoryItemList storyItemList = mapper.transform(domainStoryList);
 
-        assertThat(storyList).isEqualTo(expectedStoryList);
+        assertThat(storyItemList).isEqualTo(expectedStoryItemList);
     }
 }

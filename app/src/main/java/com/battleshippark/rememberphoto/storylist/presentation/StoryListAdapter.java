@@ -7,6 +7,8 @@ import android.view.ViewGroup;
  */
 
 class StoryListAdapter extends RecyclerView.Adapter<StoryListVH> {
+    private StoryItemList storyItemList;
+
     @Override
     public StoryListVH onCreateViewHolder(ViewGroup parent, int viewType) {
         return null;
@@ -19,6 +21,11 @@ class StoryListAdapter extends RecyclerView.Adapter<StoryListVH> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return storyItemList == null ? 0 : storyItemList.getItemList().size();
+    }
+
+    void setItems(StoryItemList storyItemList) {
+        this.storyItemList = storyItemList;
+        notifyDataSetChanged();
     }
 }

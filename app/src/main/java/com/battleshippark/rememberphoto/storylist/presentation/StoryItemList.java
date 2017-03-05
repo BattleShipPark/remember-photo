@@ -11,10 +11,10 @@ import java.util.List;
 /**
  */
 
-class StoryList {
+class StoryItemList {
     private final List<Item> itemList = new ArrayList<>();
 
-    StoryList(DomainStoryList domainStoryList) {
+    StoryItemList(DomainStoryList domainStoryList) {
         Stream.of(domainStoryList.getGroupList()).forEach(group -> {
             itemList.add(new Item(group.getYear(), group.getMonth(), group.getStoryList().size()));
             group.getStoryList().forEach(domainStory -> itemList.add(new Item(new Story(domainStory))));
@@ -22,7 +22,7 @@ class StoryList {
     }
 
     @VisibleForTesting
-    StoryList(List<Item> itemList) {
+    StoryItemList(List<Item> itemList) {
         this.itemList.addAll(itemList);
     }
 
@@ -35,9 +35,9 @@ class StoryList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StoryList storyList = (StoryList) o;
+        StoryItemList storyItemList = (StoryItemList) o;
 
-        return itemList.equals(storyList.itemList);
+        return itemList.equals(storyItemList.itemList);
     }
 
     @Override
@@ -47,7 +47,7 @@ class StoryList {
 
     @Override
     public String toString() {
-        return "StoryList{" +
+        return "StoryItemList{" +
                 "itemList=" + itemList +
                 '}';
     }

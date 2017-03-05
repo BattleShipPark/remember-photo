@@ -7,7 +7,7 @@ import com.battleshippark.rememberphoto.domain.DomainStoryList;
  */
 
 class PresentationMapper {
-    StoryList transform(DomainStoryList domainStoryList) {
-        return new StoryList(domainStoryList);
+    StoryItemList transform(DomainStoryList domainStoryList) {
+        return new StoryItemList(domainStoryList);
     }
 }
