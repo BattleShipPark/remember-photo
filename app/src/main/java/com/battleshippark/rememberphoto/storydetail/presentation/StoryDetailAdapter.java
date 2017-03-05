@@ -1,31 +1,34 @@
 package com.battleshippark.rememberphoto.storydetail.presentation;
 
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.battleshippark.rememberphoto.R;
+
 /**
  */
 
-class StoryDetailAdapter extends PagerAdapter {
+class StoryDetailAdapter extends RecyclerView.Adapter<StoryDetailPhotoVH> {
+    private Story item;
+
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        return super.instantiateItem(container, position);
+    public StoryDetailPhotoVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new StoryDetailPhotoVH(
+                View.inflate(parent.getContext(), R.layout.listitem_story_detail_photo, null));
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
+    public void onBindViewHolder(StoryDetailPhotoVH holder, int position) {
+        holder.bind();
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return 0;
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return false;
+    public void setItem(Story item) {
+        this.item = item;
     }
 }
