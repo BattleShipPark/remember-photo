@@ -12,6 +12,9 @@
     <string name="story_detail_content_hint">Input content</string>
     <string name="story_detail_top_title_create">Create Story</string>
     <string name="done">Done</string>
+    <string name="story_list_top_title">Story</string>
+    <string name="add">Add</string>
+    <string name="story_list_empty_page_text">There are no stories. Press add button below to add your own stories!</string>
     <plurals name="story_detail_title_text">
         <item quantity="one">1 photo</item>
         <item quantity="other">%1$d photos</item>

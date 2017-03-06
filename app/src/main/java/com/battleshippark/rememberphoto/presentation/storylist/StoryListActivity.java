@@ -23,14 +23,16 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryListActivity extends AppCompatActivity implements UiListener {
-    @BindView(R.id.tool_bar)
-    protected Toolbar toolbar;
+    @BindView(R.id.top_add)
+    protected View topAddText;
     @BindView(R.id.recycler_view)
     protected RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
     @BindView(R.id.error_layout)
     protected View errorLayout;
+    @BindView(R.id.empty_layout)
+    protected View emptyLayout;
 
     private StoryListAdapter adapter;
     private StoryListPresenter presenter;
@@ -69,8 +71,6 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     }
 
     private void initUI() {
-        setSupportActionBar(toolbar);
-
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(lm);
         recyclerView.setAdapter(adapter);
@@ -89,16 +89,27 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     @Override
     public void showErrorPage() {
         errorLayout.setVisibility(View.VISIBLE);
+        emptyLayout.setVisibility(View.GONE);
     }
 
     @Override
     public void update(StoryItemList storyItemList) {
-        adapter.setItems(storyItemList);
+        if (storyItemList.getItemList().isEmpty()) {
+            showEmptyPage();
+        } else {
+            adapter.setItems(storyItemList);
+        }
     }
 
     @OnClick(R.id.error_retry_btn)
     void retry() {
         errorLayout.setVisibility(View.GONE);
         presenter.loadList();
+    }
+
+    private void showEmptyPage() {
+        hideProgress();
+        errorLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.VISIBLE);
     }
 }
