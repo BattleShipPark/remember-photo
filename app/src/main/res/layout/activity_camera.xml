@@ -12,6 +12,7 @@
         android:layout_height="match_parent"/>
 
     <RelativeLayout
+        android:id="@+id/bottom_layer"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_alignParentBottom="true"
@@ -34,14 +35,24 @@
             android:src="@drawable/camera"/>
 
         <TextView
-            android:id="@+id/count_text"
+            android:id="@+id/save_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="@string/camera_photo_count"
+            android:text="@string/camera_save"
             android:textSize="14sp"/>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layer"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:text="@string/camera_photo_count"
+        android:textSize="14sp"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

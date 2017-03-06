@@ -6,6 +6,8 @@
     <string name="story_detail_date_text">Modified in %1$s</string>
     <string name="cancel">Cancel</string>
     <string name="camera_photo_count">Shot %1$d</string>
+    <string name="camera_save">Save</string>
+    <string name="camera_cancel_alert">You have unsaved photos. Are you really going to exit?</string>
     <plurals name="story_detail_title_text">
         <item quantity="one">1 photo</item>
         <item quantity="other">%1$d photos</item>

@@ -146,6 +146,17 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         }
     }
 
+    @OnClick(R.id.cancel_text)
+    void onClickCancel() {
+        if (pathList.size() > 0) {
+            new AlertDialog.Builder(this).setMessage(R.string.camera_cancel_alert)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
+                    .setNegativeButton(android.R.string.no, null).show();
+        } else {
+            finish();
+        }
+    }
+
     @OnClick(R.id.camera_image)
     void onClickCamera() {
         showProgress();
