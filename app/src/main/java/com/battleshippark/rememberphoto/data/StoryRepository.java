@@ -23,7 +23,7 @@ public class StoryRepository implements StoryInteractor {
     }
 
     @Override
-    public Observable<Void> save(List<String> pathList) {
-        return null; //Observable.just(DbOpenHelper.getInstance().getStoryDao().create(id));
+    public Observable<Void> save(StoryDto storyDto) {
+        return null;
     }
 }

@@ -16,5 +16,5 @@ public interface StoryInteractor {
 
     Observable<StoryDto> query(long id) throws SQLException;
 
-    Observable<Void> save(List<String> pathList);
+    Observable<Void> save(StoryDto storyDto);
 }

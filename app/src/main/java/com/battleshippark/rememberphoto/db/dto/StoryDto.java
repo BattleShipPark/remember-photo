@@ -27,7 +27,6 @@ public class StoryDto {
     public StoryDto() {
     }
 
-    @VisibleForTesting
     public StoryDto(String title, String content, Date date, String[] photoPathList) {
         this.title = title;
         this.content = content;

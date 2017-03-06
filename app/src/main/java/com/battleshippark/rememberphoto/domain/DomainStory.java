@@ -26,6 +26,10 @@ public class DomainStory {
         photoPathList = Arrays.asList(storyDto.getPhotoPathList());
     }
 
+    public DomainStory(Date date, List<String> pathList) {
+        this(-1, null, null, date, pathList);
+    }
+
     @VisibleForTesting
     public DomainStory(long id, String title, String content, Date date, List<String> photoPathList) {
         this.id = id;

@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStory;
+import com.battleshippark.rememberphoto.domain.SaveStory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,12 +25,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class StoryDetailActivity extends AppCompatActivity implements UiListener {
-    @BindView(R.id.tool_bar)
-    protected Toolbar toolbar;
+    @BindView(R.id.top_title_text)
+    protected TextView topTitleText;
+    @BindView(R.id.top_done)
+    protected TextView topDoneText;
     @BindView(R.id.count_text)
     protected TextView countText;
     @BindView(R.id.recycler_view)
@@ -67,7 +72,7 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         if (mode == Mode.VIEW || mode == Mode.EDIT) {
             presenter.load();
         } else {
-            story = presenter.createStory(pathList, System.currentTimeMillis());
+            story = presenter.createStory(System.currentTimeMillis(), pathList);
             countText.setText(getResources().getQuantityString(R.plurals.story_detail_title_text, pathList.size(), pathList.size()));
             adapter.setItems(pathList);
             dateText.setText(story.getDate());
@@ -93,14 +98,16 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
             pathList = savedInstanceState.getStringArrayList(KEY_PATH_LIST);
         }
         adapter = new StoryDetailPhotoAdapter();
+
+        final StoryRepository storyRepos = new StoryRepository();
         presenter = new StoryDetailPresenter(storyId, this,
-                new GetStory(new StoryRepository(), new DomainMapper(),
-                        Schedulers.io(), AndroidSchedulers.mainThread()), new PresentationMapper());
+                new GetStory(storyRepos, new DomainMapper(),
+                        Schedulers.io(), AndroidSchedulers.mainThread()),
+                new SaveStory(storyRepos, Schedulers.io(), AndroidSchedulers.mainThread()),
+                new PresentationMapper());
     }
 
     private void initUI() {
-        setSupportActionBar(toolbar);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }
@@ -130,6 +137,18 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         titleEdit.setText(story.getTitle());
         contentEdit.setText(story.getContent());
         dateText.setText(getResources().getString(R.string.story_detail_date_text, story.getDate()));
+    }
+
+    @Override
+    public void saveDone() {
+        hideProgress();
+        finish();
+    }
+
+    @OnClick(R.id.top_done)
+    void onClickDone() {
+        showProgress();
+        presenter.save(titleEdit.getText().toString(), contentEdit.getText().toString());
     }
 
     public static Intent createIntent(Context context, long storyId) {

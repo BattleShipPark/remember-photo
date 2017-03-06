@@ -11,4 +11,6 @@ interface UiListener {
     void showErrorPage();
 
     void update(Story story);
+
+    void saveDone();
 }

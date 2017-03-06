@@ -12,7 +12,7 @@ import rx.Subscriber;
 /**
  */
 
-public class SaveStory implements UseCase<List<String>, Void> {
+public class SaveStory implements UseCase<StoryDto, Void> {
     private final StoryInteractor storyRepos;
     private final Scheduler scheduler;
     private final Scheduler postScheduler;
@@ -24,7 +24,7 @@ public class SaveStory implements UseCase<List<String>, Void> {
     }
 
     @Override
-    public void execute(List<String> pathList, Subscriber<Void> subscriber) {
+    public void execute(StoryDto storyDto, Subscriber<Void> subscriber) {
         Subscriber<Void> innerSubscriber = new Subscriber<Void>() {
             @Override
             public void onCompleted() {
@@ -42,6 +42,6 @@ public class SaveStory implements UseCase<List<String>, Void> {
             }
         };
 
-        storyRepos.save(pathList).subscribeOn(scheduler).observeOn(postScheduler).subscribe(innerSubscriber);
+        storyRepos.save(storyDto).subscribeOn(scheduler).observeOn(postScheduler).subscribe(innerSubscriber);
     }
 }
