@@ -27,6 +27,10 @@ class Story {
         photoPathList = domainStory.getPhotoPathList();
     }
 
+    Story(String date, List<String> photoPathList) {
+        this(-1, null, null, date, photoPathList);
+    }
+
     @VisibleForTesting
     Story(long id, String title, String content, String date, List<String> photoPathList) {
         this.id = id;

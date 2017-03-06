@@ -67,7 +67,10 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         if (mode == Mode.VIEW || mode == Mode.EDIT) {
             presenter.load();
         } else {
+            story = presenter.createStory(pathList, System.currentTimeMillis());
+            countText.setText(getResources().getQuantityString(R.plurals.story_detail_title_text, pathList.size(), pathList.size()));
             adapter.setItems(pathList);
+            dateText.setText(story.getDate());
         }
     }
 

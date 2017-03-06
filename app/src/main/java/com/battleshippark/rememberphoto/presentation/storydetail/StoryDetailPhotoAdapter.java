@@ -1,6 +1,7 @@
 package com.battleshippark.rememberphoto.presentation.storydetail;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,7 +18,7 @@ class StoryDetailPhotoAdapter extends RecyclerView.Adapter<StoryDetailPhotoVH> {
     @Override
     public StoryDetailPhotoVH onCreateViewHolder(ViewGroup parent, int viewType) {
         return new StoryDetailPhotoVH(
-                View.inflate(parent.getContext(), R.layout.listitem_story_detail_photo, null));
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_story_detail_photo, parent, false));
     }
 
     @Override

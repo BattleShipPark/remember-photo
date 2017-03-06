@@ -3,6 +3,11 @@ package com.battleshippark.rememberphoto.presentation.storydetail;
 import com.battleshippark.rememberphoto.domain.DomainStory;
 import com.battleshippark.rememberphoto.domain.UseCase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 import rx.Subscriber;
 
 /**
@@ -40,5 +45,12 @@ class StoryDetailPresenter {
                 uiListener.update(mapper.transform(storyList));
             }
         });
+    }
+
+    Story createStory(List<String> pathList, long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        return new Story(dateFormat.format(cal.getTime()), pathList);
     }
 }

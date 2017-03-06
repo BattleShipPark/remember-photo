@@ -1,10 +1,7 @@
 package com.battleshippark.rememberphoto.presentation.storylist;
 
-import com.battleshippark.rememberphoto.domain.DomainStoryList;
 import com.battleshippark.rememberphoto.domain.DomainStory;
-import com.battleshippark.rememberphoto.presentation.storylist.PresentationMapper;
-import com.battleshippark.rememberphoto.presentation.storylist.Story;
-import com.battleshippark.rememberphoto.presentation.storylist.StoryItemList;
+import com.battleshippark.rememberphoto.domain.DomainStoryList;
 
 import org.junit.Test;
 

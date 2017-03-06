@@ -8,6 +8,8 @@
     <string name="camera_photo_count">Shot %1$d</string>
     <string name="camera_save">Save</string>
     <string name="camera_cancel_alert">You have unsaved photos. Are you really going to exit?</string>
+    <string name="story_detail_title_hint">Input title</string>
+    <string name="story_detail_content_hint">Input content</string>
     <plurals name="story_detail_title_text">
         <item quantity="one">1 photo</item>
         <item quantity="other">%1$d photos</item>

@@ -9,6 +9,8 @@
     <string name="camera_photo_count">%1$d장</string>
     <string name="camera_save">저장</string>
     <string name="camera_cancel_alert">저장하지 않은 사진이 있습니다. 정말 종료하시겠습니까?</string>
+    <string name="story_detail_title_hint">제목을 입력하세요</string>
+    <string name="story_detail_content_hint">내용을 입력하세요</string>
     <plurals name="story_detail_title_text">
         <item quantity="other">%1$d장의 사진</item>
     </plurals>
