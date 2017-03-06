@@ -21,4 +21,9 @@ public class StoryRepository implements StoryInteractor {
     public Observable<StoryDto> query(long id) throws SQLException {
         return Observable.just(DbOpenHelper.getInstance().getStoryDao().queryForId(id));
     }
+
+    @Override
+    public Observable<Void> save(List<String> pathList) {
+        return null; //Observable.just(DbOpenHelper.getInstance().getStoryDao().create(id));
+    }
 }
