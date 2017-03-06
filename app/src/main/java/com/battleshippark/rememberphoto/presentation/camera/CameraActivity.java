@@ -2,6 +2,7 @@ package com.battleshippark.rememberphoto.presentation.camera;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
@@ -16,6 +17,7 @@ import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.camera.CameraController;
 import com.battleshippark.rememberphoto.data.CameraGadget;
 import com.battleshippark.rememberphoto.domain.TakePicture;
+import com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
@@ -161,6 +163,15 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     void onClickCamera() {
         showProgress();
         presenter.takePicture();
+    }
+
+    @OnClick(R.id.save_text)
+    void onClickSave() {
+        if (pathList.size() > 0) {
+            Intent intent = StoryDetailActivity.createIntent(this, pathList);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

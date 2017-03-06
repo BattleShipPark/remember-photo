@@ -19,7 +19,7 @@ class StoryDetailPhotoVH extends RecyclerView.ViewHolder {
 
     StoryDetailPhotoVH(View itemView) {
         super(itemView);
-        ButterKnife.bind(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     void bind(String path) {

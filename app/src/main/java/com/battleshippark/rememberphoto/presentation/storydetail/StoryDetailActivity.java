@@ -17,6 +17,10 @@ import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStory;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,10 +44,16 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
     @BindView(R.id.error_layout)
     protected View errorLayout;
 
+    private static final String KEY_MODE = "keyMode";
     private static final String KEY_STORY_ID = "keyStoryId";
+    private static final String KEY_PATH_LIST = "keyPathList";
     private StoryDetailPhotoAdapter adapter;
     private StoryDetailPresenter presenter;
+
+    private Mode mode;
     private long storyId;
+    private List<String> pathList;
+    private Story story;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +64,30 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         initData(savedInstanceState);
         initUI();
 
-        presenter.load();
+        if (mode == Mode.VIEW || mode == Mode.EDIT) {
+            presenter.load();
+        } else {
+            adapter.setItems(pathList);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putString(KEY_MODE, mode.name());
         outState.putLong(KEY_STORY_ID, storyId);
+        outState.putStringArrayList(KEY_PATH_LIST, (ArrayList<String>) pathList);
     }
 
     private void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
+            mode = Mode.valueOf(getIntent().getStringExtra(KEY_MODE));
             storyId = getIntent().getLongExtra(KEY_STORY_ID, -1);
+            pathList = getIntent().getStringArrayListExtra(KEY_PATH_LIST);
         } else {
+            mode = Mode.valueOf(savedInstanceState.getString(KEY_MODE));
             storyId = savedInstanceState.getLong(KEY_STORY_ID);
+            pathList = savedInstanceState.getStringArrayList(KEY_PATH_LIST);
         }
         adapter = new StoryDetailPhotoAdapter();
         presenter = new StoryDetailPresenter(storyId, this,
@@ -113,5 +133,16 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         Intent intent = new Intent(context, StoryDetailActivity.class);
         intent.putExtra(KEY_STORY_ID, storyId);
         return intent;
+    }
+
+    public static Intent createIntent(Context context, List<String> pathList) {
+        Intent intent = new Intent(context, StoryDetailActivity.class);
+        intent.putExtra(KEY_MODE, Mode.CREATE.name());
+        intent.putStringArrayListExtra(KEY_PATH_LIST, (ArrayList<String>) pathList);
+        return intent;
+    }
+
+    private enum Mode {
+        VIEW, EDIT, CREATE
     }
 }

@@ -8,8 +8,8 @@ import rx.Subscriber;
  */
 
 class CameraPresenter {
-    private final UiListener uiListener;
     private final UseCase<Void, String> takePicture;
+    private final UiListener uiListener;
 
     CameraPresenter(UseCase<Void, String> takePicture, UiListener uiListener) {
         this.takePicture = takePicture;
