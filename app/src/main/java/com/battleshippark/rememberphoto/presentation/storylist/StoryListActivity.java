@@ -1,5 +1,7 @@
 package com.battleshippark.rememberphoto.presentation.storylist;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStoryList;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,8 +43,22 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
 
         initData(savedInstanceState);
         initUI();
+    }
 
-        presenter.loadList();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        presenter.loadList();
+                    } else {
+                        new AlertDialog.Builder(StoryListActivity.this)
+                                .setMessage("You should grant CAMERA and WRITE_EXTERNAL_STORAGE").show();
+                    }
+                });
     }
 
     private void initData(Bundle savedInstanceState) {

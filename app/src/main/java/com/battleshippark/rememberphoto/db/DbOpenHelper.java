@@ -24,15 +24,12 @@ public class DbOpenHelper extends OrmLiteSqliteOpenHelper {
 
     private DbOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        getReadableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, StoryDto.class);
-
-            storyDao = getDao(StoryDto.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -47,7 +44,11 @@ public class DbOpenHelper extends OrmLiteSqliteOpenHelper {
         return INSTANCE;
     }
 
-    public Dao<StoryDto, Long> getStoryDao() {
+    public void createDao() throws SQLException {
+        storyDao = getDao(StoryDto.class);
+    }
+
+    public Dao<StoryDto, Long> getStoryDao() throws SQLException {
         return storyDao;
     }
 }

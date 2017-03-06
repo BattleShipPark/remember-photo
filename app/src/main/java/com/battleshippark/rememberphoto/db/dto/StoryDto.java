@@ -1,7 +1,5 @@
 package com.battleshippark.rememberphoto.db.dto;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -11,7 +9,7 @@ import java.util.Date;
 /**
  */
 
-@DatabaseTable
+@DatabaseTable(tableName = "story")
 public class StoryDto {
     @DatabaseField(id = true)
     private long id;

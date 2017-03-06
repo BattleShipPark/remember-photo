@@ -24,6 +24,14 @@ public class StoryRepository implements StoryInteractor {
 
     @Override
     public Observable<Void> save(StoryDto storyDto) {
-        return null;
+        return Observable.create(subscriber -> {
+            try {
+                DbOpenHelper.getInstance().getStoryDao().create(storyDto);
+            } catch (SQLException e) {
+                subscriber.onError(e);
+            } finally {
+                subscriber.onCompleted();
+            }
+        });
     }
 }

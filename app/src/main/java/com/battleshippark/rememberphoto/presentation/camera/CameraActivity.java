@@ -61,21 +61,11 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     @Override
     protected void onResume() {
         super.onResume();
-
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(granted -> {
-                    if (granted) {
-                        try {
-                            cameraController.open();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        new AlertDialog.Builder(CameraActivity.this)
-                                .setMessage("You should grant CAMERA and WRITE_EXTERNAL_STORAGE").show();
-                    }
-                });
+        try {
+            cameraController.open();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
