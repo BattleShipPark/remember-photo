@@ -17,15 +17,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.storylist.StoryListActivity">
+        <activity
+            android:name=".presentation.storylist.StoryListActivity"
+            android:screenOrientation="portrait">
+            <!--            <intent-filter>
+                            <action android:name="android.intent.action.MAIN"/>
+
+                            <category android:name="android.intent.category.LAUNCHER"/>
+                        </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".presentation.storydetail.StoryDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".presentation.camera.CameraActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".presentation.storydetail.StoryDetailActivity"/>
-        <activity android:name=".presentation.camera.CameraActivity">
         </activity>
     </application>
 

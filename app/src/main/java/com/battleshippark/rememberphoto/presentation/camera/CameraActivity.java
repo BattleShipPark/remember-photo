@@ -1,14 +1,18 @@
 package com.battleshippark.rememberphoto.presentation.camera;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.battleshippark.rememberphoto.R;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
 
@@ -16,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback {
-
     @BindView(R.id.surface_view)
     SurfaceView surfaceView;
     @BindView(R.id.cancel_text)
@@ -40,28 +43,41 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        try {
-            cameraController.open();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected void onResume() {
+        super.onResume();
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        try {
+                            cameraController.open();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        new AlertDialog.Builder(CameraActivity.this)
+                                .setMessage("You should grant CAMERA and WRITE_EXTERNAL_STORAGE").show();
+                    }
+                });
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         cameraController.release();
-        super.onStop();
+        super.onPause();
     }
 
     private void initData() {
-       cameraController = new CameraController();
+        cameraController = new CameraController();
     }
 
     private void initUI() {
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
+
+        ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
+        lp.height = getResources().getDisplayMetrics().widthPixels / 3 * 4;
     }
 
     @Override

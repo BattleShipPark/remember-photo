@@ -16,26 +16,30 @@
         android:layout_height="75dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center_vertical">
+        android:layout_marginRight="15dp">
 
         <TextView
             android:id="@+id/cancel_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"/>
+            android:layout_centerVertical="true"
+            android:text="@string/cancel"
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/camera_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/camera"/>
 
         <TextView
             android:id="@+id/count_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/camera_photo_count"/>
+            android:layout_centerVertical="true"
+            android:text="@string/camera_photo_count"
+            android:textSize="14sp"/>
     </RelativeLayout>
 </RelativeLayout>
