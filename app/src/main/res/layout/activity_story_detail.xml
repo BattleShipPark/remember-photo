@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.battleshippark.rememberphoto.storydetail.presentation.StoryDetailActivity">
+    tools:context="com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"

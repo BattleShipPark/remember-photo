@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storylist.presentation;
+package com.battleshippark.rememberphoto.presentation.storydetail;
 
 /**
  */
@@ -10,5 +10,5 @@ interface UiListener {
 
     void showErrorPage();
 
-    void update(StoryItemList storyItemList);
+    void update(Story story);
 }

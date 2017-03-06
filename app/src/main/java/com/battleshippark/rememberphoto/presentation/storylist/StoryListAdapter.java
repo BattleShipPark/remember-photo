@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storylist.presentation;
+package com.battleshippark.rememberphoto.presentation.storylist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;

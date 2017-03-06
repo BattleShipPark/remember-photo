@@ -1,14 +1,10 @@
-package com.battleshippark.rememberphoto.storylist.presentation;
+package com.battleshippark.rememberphoto.presentation.storylist;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.battleshippark.rememberphoto.db.dto.StoryDto;
 import com.battleshippark.rememberphoto.domain.DomainStory;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**

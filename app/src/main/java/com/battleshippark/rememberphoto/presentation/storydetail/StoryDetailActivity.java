@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storydetail.presentation;
+package com.battleshippark.rememberphoto.presentation.storydetail;
 
 import android.content.Context;
 import android.content.Intent;

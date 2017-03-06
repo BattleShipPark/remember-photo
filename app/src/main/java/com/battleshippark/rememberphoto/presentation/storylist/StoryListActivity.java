@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storylist.presentation;
+package com.battleshippark.rememberphoto.presentation.storylist;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

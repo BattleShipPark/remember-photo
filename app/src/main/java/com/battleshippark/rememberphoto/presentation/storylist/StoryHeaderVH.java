@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storylist.presentation;
+package com.battleshippark.rememberphoto.presentation.storylist;
 
 import android.view.View;
 import android.widget.TextView;

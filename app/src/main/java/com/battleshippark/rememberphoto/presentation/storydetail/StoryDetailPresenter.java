@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.storydetail.presentation;
+package com.battleshippark.rememberphoto.presentation.storydetail;
 
 import com.battleshippark.rememberphoto.domain.DomainStory;
 import com.battleshippark.rememberphoto.domain.UseCase;
