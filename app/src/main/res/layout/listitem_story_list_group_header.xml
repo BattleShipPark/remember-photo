@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_story_list"
-    android:layout_width="match_parent"
-    android:layout_height="45dp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_story_list"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
 
     <View
         android:id="@+id/top_seperator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentTop="true"
-        android:background="#000000" />
+        android:background="#000000"/>
 
     <View
         android:id="@+id/bottom_seperator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#000000" />
+        android:background="#000000"/>
 
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"
-        tools:text="2016/07" />
+        tools:text="2016/07"/>
 
     <TextView
         android:id="@+id/count_text"
@@ -37,5 +37,5 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/date_text"
         android:gravity="center_vertical"
-        tools:text="(2)" />
+        tools:text="(2)"/>
 </RelativeLayout>
