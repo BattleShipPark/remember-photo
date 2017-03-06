@@ -2,13 +2,14 @@ package com.battleshippark.rememberphoto.presentation.camera;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.battleshippark.rememberphoto.R;
@@ -18,8 +19,9 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback {
+public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback, UiListener {
     @BindView(R.id.surface_view)
     SurfaceView surfaceView;
     @BindView(R.id.cancel_text)
@@ -28,6 +30,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     ImageView cameraImage;
     @BindView(R.id.count_text)
     TextView countText;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private SurfaceHolder surfaceHolder;
     private CameraController cameraController;
@@ -69,7 +73,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     }
 
     private void initData() {
-        cameraController = new CameraController();
+        cameraController = new CameraController(this, this);
     }
 
     private void initUI() {
@@ -123,5 +127,31 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @OnClick(R.id.camera_image)
+    void onClickCamera() {
+        showProgress();
+        cameraController.takePicture();
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        setButtonEnabled(false);
+    }
+
+    @Override
+    public void hideProgress() {
+        runOnUiThread(() -> {
+            progressBar.setVisibility(View.GONE);
+            setButtonEnabled(true);
+        });
+    }
+
+    private void setButtonEnabled(boolean enabled) {
+        cancelText.setEnabled(enabled);
+        cameraImage.setEnabled(enabled);
+        countText.setEnabled(enabled);
     }
 }
