@@ -1,4 +1,4 @@
-package com.battleshippark.rememberphoto.presentation.camera;
+package com.battleshippark.rememberphoto.camera;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -24,24 +24,24 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import rx.functions.Action1;
+
 /**
  */
 
-class CameraController {
+public class CameraController {
     private static final String TAG = CameraController.class.getSimpleName();
     private final Activity activity;
-    private final UiListener uiListener;
     private final ExecutorService executorService;
     @Nullable
     private Camera camera;
 
-    CameraController(Activity activity, UiListener uiListener) {
+    public CameraController(Activity activity) {
         this.activity = activity;
-        this.uiListener = uiListener;
         this.executorService = Executors.newCachedThreadPool();
     }
 
-    void open() throws IOException {
+    public void open() throws IOException {
         releaseCameraAndPreview();
         executorService.execute(() -> camera = Camera.open());
     }
@@ -51,14 +51,14 @@ class CameraController {
         release();
     }
 
-    void release() {
+    public void release() {
         if (camera != null) {
             camera.release();
             camera = null;
         }
     }
 
-    void startPreview(SurfaceHolder holder) throws IOException {
+    public void startPreview(SurfaceHolder holder) throws IOException {
         if (camera != null) {
             camera.setDisplayOrientation(90);
             camera.setPreviewDisplay(holder);
@@ -66,14 +66,14 @@ class CameraController {
         }
     }
 
-    void stopPreview() throws IOException {
+    public void stopPreview() throws IOException {
         if (camera != null) {
             camera.stopPreview();
             camera.setPreviewDisplay(null);
         }
     }
 
-    void setParameters() {
+    public void setParameters() {
         if (camera != null) {
             Camera.Parameters parameters = camera.getParameters();
             Camera.Size previewSize = Stream.of(parameters.getSupportedPreviewSizes()).filter(param -> 1f * param.height / param.width == 0.75f)
@@ -84,19 +84,20 @@ class CameraController {
         }
     }
 
-    void takePicture() {
+    public void takePicture(Action1<String> action) {
         if (camera != null) {
             camera.takePicture(null, null, (data, camera) -> {
-                executorService.execute(() -> savePicture(data));
+                String path = savePicture(data);
+                action.call(path);
             });
         }
     }
 
-    private void savePicture(byte[] data) {
+    private String savePicture(byte[] data) {
         File pictureFile = getOutputImageFile();
         if (pictureFile == null) {
             Log.d(TAG, "Error creating media file, check storage permissions: ");
-            return;
+            return null;
         }
 
         int angleToRotate = getRotationAngle(activity, Camera.CameraInfo.CAMERA_FACING_FRONT);
@@ -106,13 +107,13 @@ class CameraController {
             OutputStream fos = new FileOutputStream(pictureFile);
             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.close();
+            return pictureFile.getAbsolutePath();
         } catch (FileNotFoundException e) {
             Log.d(TAG, "File not found: " + e.getMessage());
         } catch (IOException e) {
             Log.d(TAG, "Error accessing file: " + e.getMessage());
-        } finally {
-            uiListener.hideProgress();
         }
+        return null;
     }
 
     private int getRotationAngle(Activity mContext, int cameraId) {

@@ -13,13 +13,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.battleshippark.rememberphoto.R;
+import com.battleshippark.rememberphoto.camera.CameraController;
+import com.battleshippark.rememberphoto.data.CameraGadget;
+import com.battleshippark.rememberphoto.domain.TakePicture;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback, UiListener {
     @BindView(R.id.surface_view)
@@ -35,6 +43,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     private SurfaceHolder surfaceHolder;
     private CameraController cameraController;
+    private CameraPresenter presenter;
+    private final List<String> pathList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +83,12 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     }
 
     private void initData() {
-        cameraController = new CameraController(this, this);
+        cameraController = new CameraController(this);
+        presenter = new CameraPresenter(
+                new TakePicture(
+                        new CameraGadget(cameraController), Schedulers.io(), AndroidSchedulers.mainThread()
+                ), this
+        );
     }
 
     private void initUI() {
@@ -82,6 +97,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
         ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
         lp.height = getResources().getDisplayMetrics().widthPixels / 3 * 4;
+
+        countText.setText(getResources().getString(R.string.camera_photo_count, 0));
     }
 
     @Override
@@ -132,7 +149,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     @OnClick(R.id.camera_image)
     void onClickCamera() {
         showProgress();
-        cameraController.takePicture();
+        presenter.takePicture();
     }
 
     @Override
@@ -147,6 +164,12 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
             progressBar.setVisibility(View.GONE);
             setButtonEnabled(true);
         });
+    }
+
+    @Override
+    public void update(String path) {
+        pathList.add(path);
+        countText.setText(getResources().getString(R.string.camera_photo_count, pathList.size()));
     }
 
     private void setButtonEnabled(boolean enabled) {
