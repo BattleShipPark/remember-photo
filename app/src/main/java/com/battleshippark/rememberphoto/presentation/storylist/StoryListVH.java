@@ -32,5 +32,5 @@ abstract class StoryListVH extends RecyclerView.ViewHolder {
         }
     }
 
-    abstract void bind(int position, StoryItemList.Item item);
+    abstract void bind(int position, StoryItemList.Item item, UiListener uiListener);
 }

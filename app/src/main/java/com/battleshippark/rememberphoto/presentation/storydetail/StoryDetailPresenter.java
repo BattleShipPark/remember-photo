@@ -31,7 +31,7 @@ class StoryDetailPresenter {
 
     void load() {
         uiListener.showProgress();
-        getStory.execute(storyId, new Subscriber<DomainStory>() {
+        getStory.execute(this.storyId, new Subscriber<DomainStory>() {
             @Override
             public void onCompleted() {
                 uiListener.hideProgress();

@@ -23,7 +23,7 @@ class StoryHeaderVH extends StoryListVH {
     }
 
     @Override
-    void bind(int position, StoryItemList.Item item) {
+    void bind(int position, StoryItemList.Item item, UiListener uiListener) {
         dateText.setText(item.date);
         countText.setText("(" + item.count + ")");
     }

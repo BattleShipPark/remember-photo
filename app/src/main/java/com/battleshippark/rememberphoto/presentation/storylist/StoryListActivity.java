@@ -16,6 +16,7 @@ import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStoryList;
 import com.battleshippark.rememberphoto.presentation.camera.CameraActivity;
+import com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.BindView;
@@ -66,7 +67,7 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     }
 
     private void initData(Bundle savedInstanceState) {
-        adapter = new StoryListAdapter();
+        adapter = new StoryListAdapter(this);
         presenter = new StoryListPresenter(this,
                 new GetStoryList(new StoryRepository(), new DomainMapper(),
                         Schedulers.io(), AndroidSchedulers.mainThread()), new PresentationMapper());
@@ -102,6 +103,12 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
             hideEmptyPage();
             adapter.setItems(storyItemList);
         }
+    }
+
+    @Override
+    public void onClickItem(StoryItemList.Item item) {
+        Intent intent = StoryDetailActivity.createIntent(this, item.story.getId());
+        startActivity(intent);
     }
 
     @OnClick({R.id.top_add, R.id.empty_add_btn})

@@ -27,10 +27,12 @@ class StoryItemVH extends StoryListVH {
     }
 
     @Override
-    void bind(int position, StoryItemList.Item item) {
+    void bind(int position, StoryItemList.Item item, UiListener uiListener) {
         Glide.with(itemView.getContext()).load(item.story.getPhotoPath()).fitCenter()
                 .into(imageView);
         titleText.setText(item.story.getTitle());
         dateText.setText(item.story.getDate());
+
+        itemView.setOnClickListener(v -> uiListener.onClickItem(item));
     }
 }

@@ -95,6 +95,8 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> super.onBackPressed())
                     .setNegativeButton(android.R.string.no, null)
                     .show();
+        } else if (mode == Mode.VIEW) {
+            super.onBackPressed();
         }
     }
 
@@ -164,6 +166,7 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
     public static Intent createIntent(Context context, long storyId) {
         Intent intent = new Intent(context, StoryDetailActivity.class);
+        intent.putExtra(KEY_MODE, Mode.VIEW.name());
         intent.putExtra(KEY_STORY_ID, storyId);
         return intent;
     }

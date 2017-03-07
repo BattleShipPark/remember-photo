@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 
 class StoryListAdapter extends RecyclerView.Adapter<StoryListVH> {
     private StoryItemList storyItemList;
+    private UiListener uiListener;
+
+    StoryListAdapter(UiListener uiListener) {
+        this.uiListener = uiListener;
+    }
 
     @Override
     public StoryListVH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -16,7 +21,7 @@ class StoryListAdapter extends RecyclerView.Adapter<StoryListVH> {
 
     @Override
     public void onBindViewHolder(StoryListVH holder, int position) {
-        holder.bind(position, storyItemList.getItemList().get(position));
+        holder.bind(position, storyItemList.getItemList().get(position), uiListener);
     }
 
     @Override

@@ -11,4 +11,6 @@ interface UiListener {
     void showErrorPage();
 
     void update(StoryItemList storyItemList);
+
+    void onClickItem(StoryItemList.Item item);
 }
