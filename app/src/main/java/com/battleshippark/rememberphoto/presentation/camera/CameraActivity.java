@@ -1,6 +1,5 @@
 package com.battleshippark.rememberphoto.presentation.camera;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,17 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.camera.CameraController;
 import com.battleshippark.rememberphoto.data.CameraGadget;
 import com.battleshippark.rememberphoto.domain.TakePicture;
 import com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailActivity;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,13 +38,16 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     ImageView cameraImage;
     @BindView(R.id.count_text)
     TextView countText;
+    @BindView(R.id.save_text)
+    TextView saveText;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    private static final String KEY_PHOTO_LIST = "keyPhotoList";
     private SurfaceHolder surfaceHolder;
     private CameraController cameraController;
     private CameraPresenter presenter;
-    private final List<String> pathList = new ArrayList<>();
+    private List<String> photoPathList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
 
-        initData();
+        initData(savedInstanceState);
         initUI();
     }
 
@@ -74,7 +75,17 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         super.onPause();
     }
 
-    private void initData() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList(KEY_PHOTO_LIST, (ArrayList<String>) photoPathList);
+    }
+
+    private void initData(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            photoPathList = savedInstanceState.getStringArrayList(KEY_PHOTO_LIST);
+        }
+
         cameraController = new CameraController(this);
         presenter = new CameraPresenter(
                 new TakePicture(
@@ -90,7 +101,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
         lp.height = getResources().getDisplayMetrics().widthPixels / 3 * 4;
 
-        countText.setText(getResources().getString(R.string.camera_photo_count, 0));
+        countText.setText(getResources().getString(R.string.camera_photo_count, photoPathList.size()));
     }
 
     @Override
@@ -140,7 +151,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @OnClick(R.id.cancel_text)
     void onClickCancel() {
-        if (pathList.size() > 0) {
+        if (photoPathList.size() > 0) {
             new AlertDialog.Builder(this).setMessage(R.string.camera_cancel_alert)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> finish())
                     .setNegativeButton(android.R.string.no, null).show();
@@ -157,10 +168,12 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @OnClick(R.id.save_text)
     void onClickSave() {
-        if (pathList.size() > 0) {
-            Intent intent = StoryDetailActivity.createIntent(this, pathList);
+        if (photoPathList.size() > 0) {
+            Intent intent = StoryDetailActivity.createIntent(this, photoPathList);
             startActivity(intent);
             finish();
+        } else {
+            Toast.makeText(this, R.string.camera_save_empty, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -180,13 +193,14 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @Override
     public void update(String path) {
-        pathList.add(path);
-        countText.setText(getResources().getString(R.string.camera_photo_count, pathList.size()));
+        photoPathList.add(path);
+        countText.setText(getResources().getString(R.string.camera_photo_count, photoPathList.size()));
     }
 
     private void setButtonEnabled(boolean enabled) {
         cancelText.setEnabled(enabled);
         cameraImage.setEnabled(enabled);
         countText.setEnabled(enabled);
+        saveText.setEnabled(enabled);
     }
 }

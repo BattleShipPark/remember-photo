@@ -2,6 +2,7 @@ package com.battleshippark.rememberphoto.presentation.storylist;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.data.StoryRepository;
 import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStoryList;
+import com.battleshippark.rememberphoto.presentation.camera.CameraActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.BindView;
@@ -99,6 +101,12 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
         } else {
             adapter.setItems(storyItemList);
         }
+    }
+
+    @OnClick({R.id.top_add, R.id.empty_add_btn})
+    void add() {
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.error_retry_btn)
