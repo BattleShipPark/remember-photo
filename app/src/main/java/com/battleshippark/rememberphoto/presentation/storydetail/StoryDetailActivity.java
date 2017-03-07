@@ -1,5 +1,6 @@
 package com.battleshippark.rememberphoto.presentation.storydetail;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,6 +86,16 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         outState.putString(KEY_MODE, mode.name());
         outState.putLong(KEY_STORY_ID, storyId);
         outState.putStringArrayList(KEY_PATH_LIST, (ArrayList<String>) pathList);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mode == Mode.CREATE) {
+            new AlertDialog.Builder(this).setMessage(R.string.story_detail_exit_alert)
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> super.onBackPressed())
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }
     }
 
     private void initData(Bundle savedInstanceState) {

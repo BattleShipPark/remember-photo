@@ -18,7 +18,7 @@ class StoryItemList {
     StoryItemList(DomainStoryList domainStoryList) {
         Stream.of(domainStoryList.getGroupList()).forEach(group -> {
             itemList.add(new Item(group.getYear(), group.getMonth(), group.getStoryList().size()));
-            group.getStoryList().forEach(domainStory -> itemList.add(new Item(new Story(domainStory))));
+            Stream.of(group.getStoryList()).forEach(domainStory -> itemList.add(new Item(new Story(domainStory))));
         });
     }
 

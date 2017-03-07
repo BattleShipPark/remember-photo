@@ -19,7 +19,7 @@ class StoryHeaderVH extends StoryListVH {
 
     StoryHeaderVH(View view) {
         super(view);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
     }
 
     @Override

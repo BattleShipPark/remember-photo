@@ -24,7 +24,12 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  */
@@ -87,8 +92,12 @@ public class CameraController {
     public void takePicture(Action1<String> action) {
         if (camera != null) {
             camera.takePicture(null, null, (data, camera) -> {
-                String path = savePicture(data);
-                action.call(path);
+                Observable.create((Observable.OnSubscribe<String>) subscriber -> {
+                    String path = savePicture(data);
+                    subscriber.onNext(path);
+                    subscriber.onCompleted();
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(action);
             });
         }
     }

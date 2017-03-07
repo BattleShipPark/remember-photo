@@ -200,6 +200,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     private void setButtonEnabled(boolean enabled) {
         cancelText.setEnabled(enabled);
         cameraImage.setEnabled(enabled);
+        cameraImage.setAlpha(enabled ? 1.0f : 0.25f);
         countText.setEnabled(enabled);
         saveText.setEnabled(enabled);
     }

@@ -8,6 +8,7 @@ import com.battleshippark.rememberphoto.R;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  */
@@ -22,6 +23,7 @@ class StoryItemVH extends StoryListVH {
 
     StoryItemVH(View view) {
         super(view);
+        ButterKnife.bind(this, view);
     }
 
     @Override

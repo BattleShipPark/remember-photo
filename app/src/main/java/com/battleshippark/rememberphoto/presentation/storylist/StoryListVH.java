@@ -23,7 +23,7 @@ abstract class StoryListVH extends RecyclerView.ViewHolder {
                 );
             case STORY:
                 return new StoryItemVH(
-                        View.inflate(context, R.layout.listitem_story_list_group_header, null)
+                        View.inflate(context, R.layout.listitem_story_list_group_item, null)
                 );
             default:
                 throw new IllegalArgumentException();
