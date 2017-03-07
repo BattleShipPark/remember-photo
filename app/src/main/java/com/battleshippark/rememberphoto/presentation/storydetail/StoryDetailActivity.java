@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.battleshippark.rememberphoto.R;
 import com.battleshippark.rememberphoto.data.StoryRepository;
@@ -20,7 +20,6 @@ import com.battleshippark.rememberphoto.domain.DomainMapper;
 import com.battleshippark.rememberphoto.domain.GetStory;
 import com.battleshippark.rememberphoto.domain.SaveStory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +32,8 @@ import rx.schedulers.Schedulers;
 public class StoryDetailActivity extends AppCompatActivity implements UiListener {
     @BindView(R.id.top_title_text)
     protected TextView topTitleText;
-    @BindView(R.id.top_done)
-    protected TextView topDoneText;
+    @BindView(R.id.top_action_text)
+    protected TextView topActionText;
     @BindView(R.id.count_text)
     protected TextView countText;
     @BindView(R.id.recycler_view)
@@ -60,6 +59,7 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
     private long storyId;
     private List<String> pathList;
     private Story story;
+    private TextWatcher titleWatcher, contentWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +72,6 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
         if (mode == Mode.VIEW || mode == Mode.EDIT) {
             presenter.load();
-        } else {
-            story = presenter.createStory(System.currentTimeMillis(), pathList);
-            countText.setText(getResources().getQuantityString(R.plurals.story_detail_title_text, pathList.size(), pathList.size()));
-            adapter.setItems(pathList);
-            dateText.setText(story.getDate());
         }
     }
 
@@ -118,11 +113,70 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
                         Schedulers.io(), AndroidSchedulers.mainThread()),
                 new SaveStory(storyRepos, Schedulers.io(), AndroidSchedulers.mainThread()),
                 new PresentationMapper());
+
+        if (mode == Mode.CREATE) {
+            story = presenter.createStory(System.currentTimeMillis(), pathList);
+        }
+
+        titleWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                presenter.onTitleChanged(s, story.getTitle());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        contentWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                presenter.onContentChanged(s, story.getContent());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
     }
 
     private void initUI() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+
+        switch (mode) {
+            case VIEW:
+                topTitleText.setText(R.string.story_detail_top_title_detail);
+                topActionText.setText(R.string.story_detail_top_action_text_edit);
+                setEnabled(titleEdit, false);
+                setEnabled(contentEdit, false);
+                break;
+            case EDIT:
+                topTitleText.setText(R.string.story_detail_top_title_edit);
+                topActionText.setText(R.string.story_detail_top_action_text_done);
+                titleEdit.addTextChangedListener(titleWatcher);
+                contentEdit.addTextChangedListener(contentWatcher);
+                break;
+            case CREATE:
+                topTitleText.setText(R.string.story_detail_top_title_create);
+                topActionText.setText(R.string.story_detail_top_action_text_done);
+                topActionText.setEnabled(false);
+                countText.setText(getResources().getQuantityString(R.plurals.story_detail_title_text, pathList.size(), pathList.size()));
+                titleEdit.addTextChangedListener(titleWatcher);
+                contentEdit.addTextChangedListener(contentWatcher);
+                adapter.setItems(pathList);
+                dateText.setText(story.getDate());
+                break;
+        }
     }
 
     @Override
@@ -142,6 +196,8 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
     @Override
     public void update(Story story) {
+        this.story = story;
+
         countText.setText(
                 getResources().getQuantityString(R.plurals.story_detail_title_text,
                         story.getPhotoPathList().size(), story.getPhotoPathList().size())
@@ -158,11 +214,27 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
         finish();
     }
 
-    @OnClick(R.id.top_done)
-    void onClickDone() {
-        showProgress();
-        presenter.save(titleEdit.getText().toString(), contentEdit.getText().toString());
+    @Override
+    public void setTopActionEnabled(boolean enabled) {
+        topActionText.setEnabled(enabled);
     }
+
+    @OnClick(R.id.top_action_text)
+    void onClickTopActionText() {
+        if (mode == Mode.VIEW) {
+            finish();
+        } else {
+            showProgress();
+            presenter.save(titleEdit.getText().toString(), contentEdit.getText().toString());
+        }
+    }
+
+    private void setEnabled(EditText editText, boolean enabled) {
+        editText.setFocusable(enabled);
+        editText.setFocusableInTouchMode(enabled);
+        editText.setClickable(enabled);
+    }
+
 
     public static Intent createIntent(Context context, long storyId) {
         Intent intent = new Intent(context, StoryDetailActivity.class);

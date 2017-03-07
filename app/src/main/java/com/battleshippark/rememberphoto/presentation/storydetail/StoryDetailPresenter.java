@@ -7,7 +7,9 @@ import com.battleshippark.rememberphoto.domain.UseCase;
 import java.util.Calendar;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.subjects.PublishSubject;
 
 /**
  */
@@ -19,6 +21,8 @@ class StoryDetailPresenter {
     private UseCase<StoryDto, Void> saveStory;
     private final PresentationMapper mapper;
     private DomainStory domainStory;
+    private PublishSubject<Boolean> titleValid = PublishSubject.create();
+    private PublishSubject<Boolean> contentValid = PublishSubject.create();
 
     StoryDetailPresenter(long storyId, UiListener uiListener, UseCase<Long, DomainStory> getStory,
                          UseCase<StoryDto, Void> saveStory, PresentationMapper mapper) {
@@ -27,6 +31,9 @@ class StoryDetailPresenter {
         this.getStory = getStory;
         this.saveStory = saveStory;
         this.mapper = mapper;
+
+        Observable.combineLatest(titleValid, contentValid, (title, content) -> title & content)
+                .subscribe(uiListener::setTopActionEnabled);
     }
 
     void load() {
@@ -75,5 +82,21 @@ class StoryDetailPresenter {
             public void onNext(Void aVoid) {
             }
         });
+    }
+
+    void onTitleChanged(CharSequence newText, String oldText) {
+        if (newText.length() != 0 && !newText.toString().equals(oldText)) {
+            titleValid.onNext(true);
+        } else {
+            titleValid.onNext(false);
+        }
+    }
+
+    void onContentChanged(CharSequence newText, String oldText) {
+        if (newText.length() != 0 && !newText.toString().equals(oldText)) {
+            contentValid.onNext(true);
+        } else {
+            contentValid.onNext(false);
+        }
     }
 }

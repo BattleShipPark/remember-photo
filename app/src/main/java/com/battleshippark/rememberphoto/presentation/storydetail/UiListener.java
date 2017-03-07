@@ -13,4 +13,6 @@ interface UiListener {
     void update(Story story);
 
     void saveDone();
+
+    void setTopActionEnabled(boolean enabled);
 }

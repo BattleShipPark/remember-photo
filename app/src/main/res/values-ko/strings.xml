@@ -11,13 +11,16 @@
     <string name="camera_cancel_alert">저장하지 않은 사진이 있습니다. 정말 종료하시겠습니까?</string>
     <string name="story_detail_title_hint">제목을 입력하세요</string>
     <string name="story_detail_content_hint">내용을 입력하세요</string>
+    <string name="story_detail_top_title_detail">스토리 상세</string>
+    <string name="story_detail_top_title_edit">스토리 편집</string>
     <string name="story_detail_top_title_create">스토리 생성</string>
-    <string name="done">완료</string>
     <string name="story_list_top_title">스토리</string>
     <string name="add">추가</string>
     <string name="story_list_empty_page_text">스토리가 하나도 없습니다. 아래 추가 버튼을 눌러서 당신만의 스토리를 만들어 보세요!</string>
     <string name="camera_save_empty">사진이 없습니다. 촬영해 주세요</string>
     <string name="story_detail_exit_alert">스토리를 만들고 있는 중입니다. 정말 종료하시겠습니까?</string>
+    <string name="story_detail_top_action_text_edit">편집</string>
+    <string name="story_detail_top_action_text_done">완료</string>
     <plurals name="story_detail_title_text">
         <item quantity="other">%1$d장의 사진</item>
     </plurals>

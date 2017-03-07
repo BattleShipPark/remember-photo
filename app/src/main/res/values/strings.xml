@@ -10,13 +10,16 @@
     <string name="camera_cancel_alert">You have unsaved photos. Are you really going to exit?</string>
     <string name="story_detail_title_hint">Input title</string>
     <string name="story_detail_content_hint">Input content</string>
+    <string name="story_detail_top_title_detail">Story Detail</string>
+    <string name="story_detail_top_title_edit">Edit Story</string>
     <string name="story_detail_top_title_create">Create Story</string>
-    <string name="done">Done</string>
     <string name="story_list_top_title">Story</string>
     <string name="add">Add</string>
     <string name="story_list_empty_page_text">There are no stories. Press add button below to add your own stories!</string>
     <string name="camera_save_empty">You have no photos. Please take pictures</string>
     <string name="story_detail_exit_alert">You are creating a new story. Are you really going to exit?</string>
+    <string name="story_detail_top_action_text_edit">Edit</string>
+    <string name="story_detail_top_action_text_done">Done</string>
     <plurals name="story_detail_title_text">
         <item quantity="one">1 photo</item>
         <item quantity="other">%1$d photos</item>
