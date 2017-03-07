@@ -99,6 +99,7 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
         if (storyItemList.getItemList().isEmpty()) {
             showEmptyPage();
         } else {
+            hideEmptyPage();
             adapter.setItems(storyItemList);
         }
     }
@@ -119,5 +120,11 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
         hideProgress();
         errorLayout.setVisibility(View.GONE);
         emptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyPage() {
+        hideProgress();
+        errorLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 
 @DatabaseTable(tableName = "story")
 public class StoryDto {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField
     private String title;

@@ -11,7 +11,7 @@ class StoryListAdapter extends RecyclerView.Adapter<StoryListVH> {
 
     @Override
     public StoryListVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return StoryListVH.create(parent.getContext(), viewType);
+        return StoryListVH.create(parent.getContext(), parent, viewType);
     }
 
     @Override
