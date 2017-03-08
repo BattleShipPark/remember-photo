@@ -96,13 +96,16 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     }
 
     @Override
+    public void showEmptyPage() {
+        hideProgress();
+        errorLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void update(StoryItemList storyItemList) {
-        if (storyItemList.getItemList().isEmpty()) {
-            showEmptyPage();
-        } else {
-            hideEmptyPage();
-            adapter.setItems(storyItemList);
-        }
+        hideEmptyPage();
+        adapter.setItems(storyItemList);
     }
 
     @Override
@@ -121,12 +124,6 @@ public class StoryListActivity extends AppCompatActivity implements UiListener {
     void retry() {
         errorLayout.setVisibility(View.GONE);
         presenter.loadList();
-    }
-
-    private void showEmptyPage() {
-        hideProgress();
-        errorLayout.setVisibility(View.GONE);
-        emptyLayout.setVisibility(View.VISIBLE);
     }
 
     private void hideEmptyPage() {

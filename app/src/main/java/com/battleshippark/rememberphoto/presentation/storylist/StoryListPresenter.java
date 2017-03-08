@@ -35,7 +35,12 @@ class StoryListPresenter {
 
             @Override
             public void onNext(DomainStoryList storyList) {
-                uiListener.update(mapper.transform(storyList));
+                StoryItemList storyItemList = mapper.transform(storyList);
+                if (storyItemList.getItemList().isEmpty()) {
+                    uiListener.showEmptyPage();
+                } else {
+                    uiListener.update(storyItemList);
+                }
             }
         });
     }

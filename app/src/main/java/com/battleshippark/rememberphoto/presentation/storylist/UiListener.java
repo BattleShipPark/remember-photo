@@ -10,6 +10,8 @@ interface UiListener {
 
     void showErrorPage();
 
+    void showEmptyPage();
+
     void update(StoryItemList storyItemList);
 
     void onClickItem(StoryItemList.Item item);
