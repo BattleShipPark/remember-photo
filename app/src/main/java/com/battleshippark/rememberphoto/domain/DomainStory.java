@@ -1,7 +1,5 @@
 package com.battleshippark.rememberphoto.domain;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.battleshippark.rememberphoto.db.dto.StoryDto;
 
 import java.util.Arrays;
@@ -30,7 +28,6 @@ public class DomainStory {
         this(-1, null, null, date, pathList);
     }
 
-    @VisibleForTesting
     public DomainStory(long id, String title, String content, Date date, List<String> photoPathList) {
         this.id = id;
         this.title = title;

@@ -69,6 +69,7 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
         initData(savedInstanceState);
         initUI();
+        updateUI();
 
         if (mode == Mode.VIEW || mode == Mode.EDIT) {
             presenter.load();
@@ -85,14 +86,28 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
     @Override
     public void onBackPressed() {
-        if (mode == Mode.CREATE) {
-            new AlertDialog.Builder(this).setMessage(R.string.story_detail_exit_alert)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> super.onBackPressed())
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-        } else if (mode == Mode.VIEW) {
-            super.onBackPressed();
+        switch (mode) {
+            case VIEW:
+                super.onBackPressed();
+                break;
+            case EDIT:
+                if (topActionText.isEnabled()) {
+                    showDialog();
+                } else {
+                    super.onBackPressed();
+                }
+                break;
+            case CREATE:
+                showDialog();
+                break;
         }
+    }
+
+    private void showDialog() {
+        new AlertDialog.Builder(this).setMessage(R.string.story_detail_exit_alert)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> super.onBackPressed())
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void initData(Bundle savedInstanceState) {
@@ -114,8 +129,14 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
                 new SaveStory(storyRepos, Schedulers.io(), AndroidSchedulers.mainThread()),
                 new PresentationMapper());
 
-        if (mode == Mode.CREATE) {
-            story = presenter.createStory(System.currentTimeMillis(), pathList);
+        switch (mode) {
+            case VIEW:
+                break;
+            case EDIT:
+                break;
+            case CREATE:
+                story = presenter.createStory(System.currentTimeMillis(), pathList);
+                break;
         }
 
         titleWatcher = new TextWatcher() {
@@ -152,7 +173,21 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
     private void initUI() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+    }
 
+    private void updateData() {
+        switch (mode) {
+            case VIEW:
+                break;
+            case EDIT:
+                presenter.setStory(story);
+                break;
+            case CREATE:
+                break;
+        }
+    }
+
+    private void updateUI() {
         switch (mode) {
             case VIEW:
                 topTitleText.setText(R.string.story_detail_top_title_detail);
@@ -164,7 +199,10 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
                 topTitleText.setText(R.string.story_detail_top_title_edit);
                 topActionText.setText(R.string.story_detail_top_action_text_done);
                 titleEdit.addTextChangedListener(titleWatcher);
+                setEnabled(titleEdit, true);
                 contentEdit.addTextChangedListener(contentWatcher);
+                setEnabled(contentEdit, true);
+                setTopActionEnabled(false);
                 break;
             case CREATE:
                 topTitleText.setText(R.string.story_detail_top_title_create);
@@ -216,13 +254,17 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
 
     @Override
     public void setTopActionEnabled(boolean enabled) {
-        topActionText.setEnabled(enabled);
+        if (mode != Mode.VIEW) {
+            topActionText.setEnabled(enabled);
+        }
     }
 
     @OnClick(R.id.top_action_text)
     void onClickTopActionText() {
         if (mode == Mode.VIEW) {
-            finish();
+            mode = Mode.EDIT;
+            updateData();
+            updateUI();
         } else {
             showProgress();
             presenter.save(titleEdit.getText().toString(), contentEdit.getText().toString());

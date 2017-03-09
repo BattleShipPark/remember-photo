@@ -4,6 +4,7 @@ import com.battleshippark.rememberphoto.db.dto.StoryDto;
 import com.battleshippark.rememberphoto.domain.DomainStory;
 import com.battleshippark.rememberphoto.domain.UseCase;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -34,6 +35,8 @@ class StoryDetailPresenter {
 
         Observable.combineLatest(titleValid, contentValid, (title, content) -> title & content)
                 .subscribe(uiListener::setTopActionEnabled);
+        titleValid.onNext(false);
+        contentValid.onNext(false);
     }
 
     void load() {
@@ -62,6 +65,14 @@ class StoryDetailPresenter {
         cal.setTimeInMillis(timestamp);
         this.domainStory = new DomainStory(cal.getTime(), pathList);
         return mapper.transform(domainStory);
+    }
+
+    void setStory(Story story) {
+        try {
+            this.domainStory = mapper.transform(story);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void save(String title, String content) {
