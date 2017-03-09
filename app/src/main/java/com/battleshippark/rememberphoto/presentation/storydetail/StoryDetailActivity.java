@@ -180,7 +180,7 @@ public class StoryDetailActivity extends AppCompatActivity implements UiListener
             case VIEW:
                 break;
             case EDIT:
-                presenter.setStory(story);
+                presenter.setEditMode(story);
                 break;
             case CREATE:
                 break;

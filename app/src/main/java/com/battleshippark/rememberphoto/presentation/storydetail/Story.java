@@ -18,18 +18,6 @@ class Story {
     private final String date;
     private final List<String> photoPathList;
 
-/*    Story(DomainStory domainStory) {
-        id = domainStory.getId();
-        title = domainStory.getTitle();
-        content = domainStory.getContent();
-        date = dateFormat.format(domainStory.getDate());
-        photoPathList = domainStory.getPhotoPathList();
-    }*/
-
-//    Story(String date, List<String> photoPathList) {
-//        this(-1, null, null, date, photoPathList);
-//    }
-
     Story(long id, String title, String content, String date, List<String> photoPathList) {
         this.id = id;
         this.title = title;

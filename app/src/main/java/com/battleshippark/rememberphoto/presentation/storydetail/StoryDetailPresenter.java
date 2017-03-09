@@ -12,6 +12,10 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 
+import static com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailPresenter.TextStatus.CHANGED;
+import static com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailPresenter.TextStatus.EMPTY;
+import static com.battleshippark.rememberphoto.presentation.storydetail.StoryDetailPresenter.TextStatus.EQUAL;
+
 /**
  */
 
@@ -22,8 +26,8 @@ class StoryDetailPresenter {
     private UseCase<StoryDto, Void> saveStory;
     private final PresentationMapper mapper;
     private DomainStory domainStory;
-    private PublishSubject<Boolean> titleValid = PublishSubject.create();
-    private PublishSubject<Boolean> contentValid = PublishSubject.create();
+    private PublishSubject<TextStatus> titleValid = PublishSubject.create();
+    private PublishSubject<TextStatus> contentValid = PublishSubject.create();
 
     StoryDetailPresenter(long storyId, UiListener uiListener, UseCase<Long, DomainStory> getStory,
                          UseCase<StoryDto, Void> saveStory, PresentationMapper mapper) {
@@ -33,10 +37,17 @@ class StoryDetailPresenter {
         this.saveStory = saveStory;
         this.mapper = mapper;
 
-        Observable.combineLatest(titleValid, contentValid, (title, content) -> title & content)
+        Observable.combineLatest(titleValid, contentValid,
+                (title, content) -> {
+                    if (title == EMPTY || content == EMPTY) {
+                        return false;
+                    } else if (title == EQUAL && content == EQUAL) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                })
                 .subscribe(uiListener::setTopActionEnabled);
-        titleValid.onNext(false);
-        contentValid.onNext(false);
     }
 
     void load() {
@@ -67,12 +78,14 @@ class StoryDetailPresenter {
         return mapper.transform(domainStory);
     }
 
-    void setStory(Story story) {
+    void setEditMode(Story story) {
         try {
             this.domainStory = mapper.transform(story);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        titleValid.onNext(EQUAL);
+        contentValid.onNext(EQUAL);
     }
 
     void save(String title, String content) {
@@ -96,18 +109,24 @@ class StoryDetailPresenter {
     }
 
     void onTitleChanged(CharSequence newText, String oldText) {
-        if (newText.length() != 0 && !newText.toString().equals(oldText)) {
-            titleValid.onNext(true);
-        } else {
-            titleValid.onNext(false);
-        }
+        textChanged(titleValid, newText, oldText);
     }
 
     void onContentChanged(CharSequence newText, String oldText) {
-        if (newText.length() != 0 && !newText.toString().equals(oldText)) {
-            contentValid.onNext(true);
+        textChanged(contentValid, newText, oldText);
+    }
+
+    private void textChanged(PublishSubject<TextStatus> subject, CharSequence newText, String oldText) {
+        if (newText.length() == 0) {
+            subject.onNext(EMPTY);
+        } else if (newText.toString().equals(oldText)) {
+            subject.onNext(EQUAL);
         } else {
-            contentValid.onNext(false);
+            subject.onNext(CHANGED);
         }
+    }
+
+    enum TextStatus {
+        EMPTY, EQUAL, CHANGED
     }
 }
